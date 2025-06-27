@@ -1,7 +1,7 @@
 import unittest
 
 from textnode import TextNode, TextType
-from functions.split_nodes_delimiter import split_nodes_delimiter, split_nodes_image, split_nodes_link, text_to_textnodes
+from functions.split_nodes_delimiter import split_nodes_delimiter, split_nodes_image, split_nodes_link, text_to_textnodes, markdown_to_blocks
 
 
 class TestNodesDelimiter(unittest.TestCase):
@@ -182,6 +182,56 @@ class TestNodesDelimiter(unittest.TestCase):
             ],
             new_nodes,
         )
+    
+    def test_markdown_to_blocks_3_blocks(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertListEqual(
+            [
+                'This is **bolded** paragraph', 
+                'This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line', 
+                '- This is a list\n- with items',
+            ],
+            blocks,
+        )
+    
+    def test_markdown_2_block(self):
+        md = """
+This is **bolded** paragraph
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list with one line
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertListEqual(
+            [
+                'This is **bolded** paragraph\nThis is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line', 
+                '- This is a list with one line',
+            ],
+            blocks,
+        )
+    
+    def test_markdown_1_block(self):
+        md = """
+- This is a list with one line
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertListEqual(
+            [
+                '- This is a list with one line',
+            ],
+            blocks,
+        )
+
 
     
 

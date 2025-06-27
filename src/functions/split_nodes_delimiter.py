@@ -85,12 +85,40 @@ def text_to_textnodes(text):
     nodes = split_nodes_image(nodes)
     nodes = split_nodes_link(nodes)
     return nodes
+
+def markdown_to_blocks(markdown):
+    lines = markdown.strip().split("\n")
+    blocks = []
+    current_block = []
+
+    for line in lines:
+        if line.strip() == "":
+            # Blank line: close current block
+            if current_block:
+                blocks.append("\n".join(current_block))
+                current_block = []
+        else:
+            current_block.append(line)
+
+    # Add the final block if any
+    if current_block:
+        blocks.append("\n".join(current_block))
+
+    return blocks
     
 
 
 if __name__ == "__main__":
-    test = "This is just a bunch of regular text with a single `code block stuff`"
-    print(text_to_textnodes(test))
+    md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+    print(markdown_to_blocks(md))
 
 
 
