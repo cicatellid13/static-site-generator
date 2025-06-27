@@ -36,9 +36,7 @@ def block_to_block_type(block: str):
                 if not line.startswith(f"{i}. "):
                     return BlockType.PARAGRAPH
                 i += 1
-            return BlockType.OLIST
-        return BlockType.PARAGRAPH
-
+            return BlockType.ORDERED_LIST
         return BlockType.PARAGRAPH
 
 if __name__ == "__main__":
