@@ -1,8 +1,8 @@
 from textnode import TextNode, TextType
+from functions.stage_files import stage_files
 
 def main():
-    text_node = TextNode("this is some text", TextType.LINK, "thisisaurl.com")
-    print(text_node)
+    stage_files()
 
 
 if __name__ == "__main__":
