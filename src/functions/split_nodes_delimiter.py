@@ -87,24 +87,33 @@ def text_to_textnodes(text):
     return nodes
 
 def markdown_to_blocks(markdown):
-    lines = markdown.strip().split("\n")
-    blocks = []
-    current_block = []
+    # lines = markdown.split("\n")
+    # blocks = []
+    # current_block = []
 
-    for line in lines:
-        if line.strip() == "":
-            # Blank line: close current block
-            if current_block:
-                blocks.append("\n".join(current_block))
-                current_block = []
-        else:
-            current_block.append(line)
+    # for line in lines:
+    #     if line.strip() == "":
+    #         # Blank line: close current block
+    #         if current_block:
+    #             blocks.append("\n".join(current_block))
+    #             current_block = []
+    #     else:
+    #         current_block.append(line)
 
-    # Add the final block if any
-    if current_block:
-        blocks.append("\n".join(current_block))
+    # # Add the final block if any
+    # if current_block:
+    #     blocks.append("\n".join(current_block))
 
-    return blocks
+    # return blocks
+    blocks = markdown.split("\n\n")
+    filtered_blocks = []
+    for block in blocks:
+        if block.strip() == "":
+            continue
+        block = block.strip()
+        filtered_blocks.append(block)
+    return filtered_blocks
+
     
 
 
