@@ -40,8 +40,10 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
                 md = f.read()
                 html_node = markdown_to_html_node(md)
                 html_string = html_node.to_html()
-                title = extract_title(html_string)
-                html_string = html_string.replace(title, "")
+                try:
+                    title = extract_title(html_string)
+                except ValueError:
+                    title = "LOTR Super fan"
 
                 filled_template = template.replace("{{ Title }}", title).replace("{{ Content }}", html_string)
                 filled_template = filled_template.replace('href="/', f'href="{base_path}').replace('src="/', f'src="{base_path}')
