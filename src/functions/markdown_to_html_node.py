@@ -57,13 +57,6 @@ def markdown_to_html_node(md):
                 code_content = '\n'.join(lines) + '\n'
                 code_node = LeafNode("code", code_content)
                 html_nodes.append(ParentNode("pre", children=[code_node]))
-                # if not block.startswith("```") or not block.endswith("```"):
-                #     raise ValueError("invalid code block")
-                # text = block[4:-3]
-                # raw_text_node = TextNode(text, TextType.TEXT)
-                # child = text_node_to_html_node(raw_text_node)
-                # code = ParentNode("code", [child])
-                # html_nodes.append(ParentNode("pre", [code]))
 
             case BlockType.QUOTE:
                 lines = block.split("\n")
@@ -83,8 +76,7 @@ def markdown_to_html_node(md):
                 li_nodes = []
                 
                 for line in lines:
-                    if line.startswith("*"):
-                        line = line[1:].lstrip() 
+                    line = line[2:].lstrip() 
                     li_nodes.append(ParentNode("li", children=text_to_children(line)))
                 html_nodes.append(ParentNode("ul", children=li_nodes))
 
