@@ -2,7 +2,7 @@ from functions.markdown_to_html_node import markdown_to_html_node
 from functions.extract_title import extract_title
 import os
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, base_path):
     print(f"generating page from {from_path} to {dest_path} using {template_path}")
     with open(from_path) as f:
         md = f.read()
@@ -15,12 +15,14 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(html_string)
     html_string = html_string.replace(title, "")
     filled_template = temp.replace("{{ Title }}", title).replace("{{ Content }}", html_string)
+    filled_template = filled_template.replace('href="/', f'href="{base_path}').replace('src="/', f'src="{base_path}')
+    
 
     with open(dest_path + "/public/index.html", "w") as html_page:
         html_page.write(filled_template)
         return filled_template
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, base_path):
     with open(template_path) as t:
         template = t.read()
     
@@ -54,7 +56,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
             print(f"recursively calling function with this dir path -> {from_path}")
             from_path = os.path.join(dir_path_content, filename)
 
-            generate_pages_recursive(from_path, template_path, os.path.join(dest_dir_path, filename))
+            generate_pages_recursive(from_path, template_path, os.path.join(dest_dir_path, filename), base_path)
 
 
 if __name__ == "__main__":

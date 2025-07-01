@@ -5,11 +5,13 @@ import os
 
 load_dotenv()
 
-def stage_files(source=None, destination=None):
-    if not source:
-        source_path = Path(os.getenv("static_path"))
-    if not destination:
-        destination_path = Path(os.getenv("public_path"))
+def stage_files(source, destination):
+    if not os.path.exists(destination):
+        os.mkdir(destination)
+
+    source_path = Path(source)
+    destination_path = Path(destination)
+    
     for item in destination_path.iterdir():
         if item.is_file():
             item.unlink()
