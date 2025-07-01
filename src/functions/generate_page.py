@@ -44,6 +44,8 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
                 html_string = html_string.replace(title, "")
 
                 filled_template = template.replace("{{ Title }}", title).replace("{{ Content }}", html_string)
+                filled_template = filled_template.replace('href="/', f'href="{base_path}').replace('src="/', f'src="{base_path}')
+
                 
                 final_path = os.path.splitext(final_path)[0] + ".html"
 
